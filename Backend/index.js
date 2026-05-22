@@ -21,14 +21,20 @@ app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
     try {
-        const connectionDB = await mongoose.connect(process.env.MONGO_URI);
-        console.log("Database connecting Successfully...")
+        // set a reasonable server selection timeout so failed connections fail fast
+        const connectionDB = await mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 5000,
+        });
+        console.log("Database connected successfully");
+
+        server.listen(app.get("port"), () => {
+            console.log(`Listening on port ${app.get("port")}`);
+        });
     } catch (err) {
-        console.log(`error is=${err}`);
+        console.error("Failed to connect to MongoDB:", err.message || err);
+        // If DB connection fails, exit so requests don't queue and time out
+        process.exit(1);
     }
-    server.listen(app.get("port"), () => {
-        console.log("Listning on port on 8000");
-    });
-}
+};
 
 start();

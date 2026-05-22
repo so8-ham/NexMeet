@@ -58,12 +58,6 @@ export default function VideoMeetComponent() {
 
     let [videos, setVideos] = useState([])
 
-    // TODO
-    // if(isChrome() === false) {
-
-
-    // }
-
     useEffect(() => {
         console.log("HELLO")
         getPermissions();
@@ -80,6 +74,8 @@ export default function VideoMeetComponent() {
             }
         }
     }
+
+
 
     const getPermissions = async () => {
         try {
@@ -136,8 +132,6 @@ export default function VideoMeetComponent() {
         connectToSocketServer();
 
     }
-
-
 
 
     let getUserMediaSuccess = (stream) => {
